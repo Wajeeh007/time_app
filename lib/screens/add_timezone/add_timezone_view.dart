@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:time_app/helpers/theme_helpers.dart';
 import 'package:time_app/screens/add_timezone/add_timezone_viewmodel.dart';
+
 import '../../helpers/constants.dart';
 
 class AddTimeZoneView extends StatelessWidget {
@@ -28,26 +28,17 @@ class AddTimeZoneView extends StatelessWidget {
           ),
         )),
       ),
-      body: Obx(() => viewModel.visibleTimezones.isEmpty ? Center(
-        child: Text(
-          'No Timezone Found',
-          style: ThemeHelper.textTheme.bodySmall,
-        ),
-      ) : Padding(
-        padding: const EdgeInsets.only(top: 10.0),
-        child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            itemCount: viewModel.visibleTimezones.length,
-              itemBuilder: (context, index) {
-                return timezoneWidget(
-                    name: viewModel.visibleTimezones[index].locationName!,
-                    time: viewModel.visibleTimezones[index].currentDateTime!,
-                    alreadySelected: viewModel.visibleTimezones[index].alreadySelected!,
-                  index: index,
-                );
-              }
-          ),
-      ),
+      body: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: viewModel.timezones.length,
+          itemBuilder: (context, index) {
+            return timezoneWidget(
+                name: viewModel.timezones[index].locationName!,
+                time: viewModel.timezones[index].currentDateTime!,
+                alreadySelected: viewModel.timezones[index].alreadySelected!,
+              index: index,
+            );
+          }
       )
     );
   }
@@ -55,7 +46,6 @@ class AddTimeZoneView extends StatelessWidget {
   Widget searchField() {
     return Expanded(
       child: TextFormField(
-        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[ a-zA-Z.,-]'))],
         textAlignVertical: TextAlignVertical.center,
         cursorColor: Get.isDarkMode ? Colors.white : primaryDarkGrey,
         style: const TextStyle(
@@ -66,7 +56,7 @@ class AddTimeZoneView extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Search Timezone',
           hintStyle: TextStyle(
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.w100,
               color: Get.isDarkMode ? Colors.white.withOpacity(0.8) : primaryDarkGrey.withOpacity(0.8)
           ),
           filled: true,
@@ -81,8 +71,8 @@ class AddTimeZoneView extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
               borderSide: BorderSide(color: Get.isDarkMode ? primaryGrey : containerWhite)
           ),
+
         ),
-        onChanged: (value) => viewModel.searchTimezone(value),
       ),
     );
   }
@@ -106,9 +96,7 @@ class AddTimeZoneView extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: ThemeHelper.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500
-                    ),
+                    style: ThemeHelper.textTheme.bodySmall,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,13 +104,13 @@ class AddTimeZoneView extends StatelessWidget {
                       Text(
                           DateFormat('hh:mm a').format(time),
                         style: ThemeHelper.textTheme.labelMedium?.copyWith(
-                          color: lightGrey
+                          color: primaryGrey
                         ),
                       ),
                       Text(
                         DateFormat.yMMMEd().format(time),
                         style: ThemeHelper.textTheme.labelMedium?.copyWith(
-                          color: lightGrey
+                          color: primaryGrey
                         ),
                       )
                     ],
