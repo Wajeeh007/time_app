@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:time_app/helpers/theme_helpers.dart';
 import 'package:time_app/screens/add_timezone/add_timezone_viewmodel.dart';
-
 import '../../helpers/constants.dart';
 
 class AddTimeZoneView extends StatelessWidget {
@@ -14,38 +14,48 @@ class AddTimeZoneView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0.0,
-        leading: const SizedBox(),
-        bottom: PreferredSize(preferredSize: const Size.fromHeight(20), child: Padding(
-          padding: const EdgeInsets.only(right: 15.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_rounded,)),
-              searchField(),
-            ],
+        appBar: AppBar(
+          scrolledUnderElevation: 0.0,
+          leading: const SizedBox(),
+          bottom: PreferredSize(preferredSize: const Size.fromHeight(20), child: Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_rounded,)),
+                searchField(),
+              ],
+            ),
+          )),
+        ),
+        body: Obx(() => viewModel.visibleTimezones.isEmpty ? Center(
+          child: Text(
+            'No Timezone Found',
+            style: ThemeHelper.textTheme.bodySmall,
           ),
-        )),
-      ),
-      body: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: viewModel.timezones.length,
-          itemBuilder: (context, index) {
-            return timezoneWidget(
-                name: viewModel.timezones[index].locationName!,
-                time: viewModel.timezones[index].currentDateTime!,
-                alreadySelected: viewModel.timezones[index].alreadySelected!,
-              index: index,
-            );
-          }
-      )
+        ) : Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: viewModel.visibleTimezones.length,
+              itemBuilder: (context, index) {
+                return timezoneWidget(
+                  name: viewModel.visibleTimezones[index].locationName!,
+                  time: viewModel.visibleTimezones[index].currentDateTime!,
+                  alreadySelected: viewModel.visibleTimezones[index].alreadySelected!,
+                  index: index,
+                );
+              }
+          ),
+        ),
+        )
     );
   }
 
   Widget searchField() {
     return Expanded(
       child: TextFormField(
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[ a-zA-Z.,-]'))],
         textAlignVertical: TextAlignVertical.center,
         cursorColor: Get.isDarkMode ? Colors.white : primaryDarkGrey,
         style: const TextStyle(
@@ -56,7 +66,7 @@ class AddTimeZoneView extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Search Timezone',
           hintStyle: TextStyle(
-              fontWeight: FontWeight.w100,
+              fontWeight: FontWeight.w300,
               color: Get.isDarkMode ? Colors.white.withOpacity(0.8) : primaryDarkGrey.withOpacity(0.8)
           ),
           filled: true,
@@ -71,8 +81,8 @@ class AddTimeZoneView extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
               borderSide: BorderSide(color: Get.isDarkMode ? primaryGrey : containerWhite)
           ),
-
         ),
+        onChanged: (value) => viewModel.searchTimezone(value),
       ),
     );
   }
@@ -96,21 +106,23 @@ class AddTimeZoneView extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: ThemeHelper.textTheme.bodySmall,
+                    style: ThemeHelper.textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w500
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                          DateFormat('hh:mm a').format(time),
+                        DateFormat('hh:mm a').format(time),
                         style: ThemeHelper.textTheme.labelMedium?.copyWith(
-                          color: primaryGrey
+                            color: lightGrey
                         ),
                       ),
                       Text(
                         DateFormat.yMMMEd().format(time),
                         style: ThemeHelper.textTheme.labelMedium?.copyWith(
-                          color: primaryGrey
+                            color: lightGrey
                         ),
                       )
                     ],
