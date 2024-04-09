@@ -7,6 +7,7 @@ const primaryGrey = Color(0xff4a4d55);
 const primaryDarkGrey = Color(0xff16151b);
 const primaryBlack = Color(0xff070609);
 const containerWhite = Color(0xfff6f8fa);
+const lightGrey = Color(0xff9e9e9e);
 
 class Constants {
 
