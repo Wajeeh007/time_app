@@ -55,7 +55,12 @@ class WorldClockView extends StatelessWidget {
                 child: Obx(() => Column(
                     children: List.generate(
                         viewModel.timezones.length,
-                            (index) => timezoneWidget(name: viewModel.timezones[index].timezoneName!, time: viewModel.timezones[index].currentDateTime!)),
+                            (index) => timezoneWidget(
+                                name: viewModel.timezones[index].timezoneName!,
+                                time: viewModel.timezones[index].currentDateTime!,
+                              index: index,
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -67,7 +72,7 @@ class WorldClockView extends StatelessWidget {
     );
   }
 
-  Widget timezoneWidget({required String name, required DateTime time}) {
+  Widget timezoneWidget({required String name, required DateTime time, required int index}) {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
@@ -99,8 +104,8 @@ class WorldClockView extends StatelessWidget {
               ),
               Radio(
                 value: name,
-                groupValue: viewModel.chosenGroupValue.value,
-                onChanged: (value) => viewModel.chosenGroupValue.value = value!,
+                groupValue: viewModel.chosenGroupValue,
+                onChanged: (value) => viewModel.changeMainTime(index),
                 fillColor: MaterialStateProperty.resolveWith((states) => primaryPurple),
               )
             ],

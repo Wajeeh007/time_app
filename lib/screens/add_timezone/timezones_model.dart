@@ -1,6 +1,6 @@
 class TimezonesModel {
 
-  final DateTime? currentDateTime;
+  DateTime? currentDateTime;
   final String? locationName;
   final String? databaseName;
   bool? alreadySelected;
