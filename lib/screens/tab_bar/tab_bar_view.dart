@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:time_app/helpers/theme_helpers.dart';
+import 'package:time_app/screens/alarms/alarms_view.dart';
 import 'package:time_app/screens/tab_bar/tab_bar_viewmodel.dart';
 import 'package:time_app/screens/world_clock/world_clock_view.dart';
 
@@ -14,7 +14,9 @@ class MainTabBarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryBlack,
       appBar: AppBar(
+        backgroundColor: Get.isDarkMode ? primaryBlack : Colors.white,
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(40),
             child: TabBar(
@@ -40,7 +42,7 @@ class MainTabBarView extends StatelessWidget {
         controller: viewModel.tabController,
           children: [
             WorldClockView(),
-            WorldClockView(),
+            AlarmsView(),
             WorldClockView(),
             WorldClockView()
           ]

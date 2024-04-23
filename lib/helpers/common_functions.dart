@@ -1,8 +1,6 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../screens/world_clock/stored_timezone_details.dart';
-
 class CommonFunctions {
 
   static String splitName(String nameToSplit) {
@@ -54,15 +52,15 @@ class CommonFunctions {
     return name;
   }
 
-  saveList(RxList<StoredTimezoneDetails> list) async  {
+  saveList(RxList<dynamic> list, String key) async  {
     List jsonList = [];
     for (var element in list) {
       jsonList.add(element.toJson());
     }
-    if(GetStorage().hasData('timezone')){
-      await GetStorage().remove('timezone');
+    if(GetStorage().hasData(key)){
+      await GetStorage().remove(key);
     }
-    await GetStorage().write('timezone', jsonList);
+    await GetStorage().write(key, jsonList);
   }
 
 }

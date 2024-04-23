@@ -67,11 +67,7 @@ class WorldClockViewModel extends GetxController {
     chosenGroupValue = name;
     chosenDateTime = DateTime.now();
     getTimeOfAll();
-    List jsonList = [];
-    for (var element in timezones) {
-      jsonList.add(element.toJson());
-    }
-    await GetStorage().write('timezone', jsonList);
+    await CommonFunctions().saveList(timezones, 'timezone');
   }
 
   /// Set the time to display
@@ -109,6 +105,6 @@ class WorldClockViewModel extends GetxController {
     chosenDateTime = timezones[index].currentDateTime!;
     chosenIndex = index;
     chosenGroupValue = timezones[index].timezoneName!;
-    await CommonFunctions().saveList(timezones);
+    await CommonFunctions().saveList(timezones, 'timezone');
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'constants.dart';
 
 class ThemeHelper {
@@ -13,10 +12,13 @@ class ThemeHelper {
   ).copyWith(
     brightness: Brightness.light,
     textTheme: TextThemes.textTheme(color: primaryDarkGrey),
+    appBarTheme: const AppBarTheme(
+        color: Colors.white
+    ),
     primaryColor: primaryPurple,
     indicatorColor: primaryPurple,
     unselectedWidgetColor: primaryGrey,
-    progressIndicatorTheme: ProgressIndicatorThemeData(
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
       circularTrackColor: primaryBlack
     ),
     splashColor: Colors.transparent,
@@ -29,9 +31,12 @@ class ThemeHelper {
     primaryColor: primaryPurple,
     brightness: Brightness.dark,
     indicatorColor: primaryPurple,
+    appBarTheme: const AppBarTheme(
+      color: primaryBlack
+    ),
     unselectedWidgetColor: primaryGrey,
     splashColor: Colors.transparent,
-    progressIndicatorTheme: ProgressIndicatorThemeData(
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
       circularTrackColor: Colors.white,
     ),
     textTheme: TextThemes.textTheme(color: Colors.white),

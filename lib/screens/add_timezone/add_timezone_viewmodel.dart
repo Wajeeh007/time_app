@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:time_app/helpers/common_functions.dart';
 import 'package:time_app/helpers/constants.dart';
 import 'package:time_app/screens/add_timezone/timezones_model.dart';
@@ -40,7 +39,6 @@ class AddTimeZoneViewModel extends GetxController {
       visibleTimezones.add(timezones.last);
       visibleTimezones.refresh();
       if(key == locations.keys.last) {
-        print('last key');
         incrementTime();
       }
     });
@@ -76,7 +74,7 @@ class AddTimeZoneViewModel extends GetxController {
       visibleTimezones[index].alreadySelected = true;
       visibleTimezones.refresh();
       timezones[index].alreadySelected = true;
-      await CommonFunctions().saveList(viewModel.timezones);
+      await CommonFunctions().saveList(viewModel.timezones, 'timezone');
       Get.back();
       Constants.showToast('Timezone added');
     } else {

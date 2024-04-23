@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:time_app/helpers/theme_helpers.dart';
 import 'package:time_app/screens/world_clock/world_clock_viewmodel.dart';
+import 'package:time_app/widgets/add_button.dart';
+import 'package:time_app/widgets/headline_container.dart';
 import 'package:time_app/widgets/hour_min_sec_meridian.dart';
 import 'package:time_app/widgets/unit_and_desc.dart';
 import '../../helpers/constants.dart';
@@ -35,21 +37,7 @@ class WorldClockView extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
                 child: Image.asset('assets/images/world_map.png', height: 200, fit: BoxFit.fill,),
               ),
-              const SizedBox(height: 30,),
-              Container(
-                width: Get.width,
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Get.isDarkMode ? primaryGrey : containerWhite,
-                ),
-                child: Text(
-                  'TIMEZONE',
-                  style: ThemeHelper.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    letterSpacing: 1.4
-                  ),
-                ),
-              ),
+              const HeadlineContainer(title: 'TIMEZONE'),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
                 child: Obx(() => Column(
@@ -67,7 +55,7 @@ class WorldClockView extends StatelessWidget {
             ],
           ),
         ),
-        timezoneAddBtn()
+        AddButton(onTap: () => Get.toNamed(Routes.addTimezone),)
       ],
     );
   }
@@ -111,34 +99,6 @@ class WorldClockView extends StatelessWidget {
             ],
           )
         ],
-      ),
-    );
-  }
-
-  Widget timezoneAddBtn() {
-    return Positioned(
-      bottom: 15,
-      child: InkWell(
-        onTap: () => Get.toNamed(Routes.addTimezone),
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: primaryPurple,
-              boxShadow: [
-                BoxShadow(
-                  color: primaryGrey,
-                  spreadRadius: 1,
-                  blurRadius: 12,
-                  offset: Offset(0, 2),
-                ),
-              ]
-          ),
-          child: const Icon(
-            Icons.add,
-            size: 23,
-          ),
-        ),
       ),
     );
   }
